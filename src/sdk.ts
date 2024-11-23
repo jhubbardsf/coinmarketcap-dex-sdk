@@ -67,6 +67,37 @@ export class CoinMarketCapDexSDK {
 		);
 	}
 
+	// Get latest spot pairs with pagination
+	async getSpotPairsLatestWithPagination(
+		params: SpotPairsLatestParams,
+		onPageReceived: (data: any) => void,
+		maxPages: number = 10
+	): Promise<void> {
+		let currentScrollId: string | undefined = params.scroll_id;
+		let currentPage = 0;
+
+		while (currentPage < maxPages) {
+			const response = await this.fetch<SpotPairsLatestResponse>(
+				"/v4/dex/spot-pairs/latest",
+				{
+					...params,
+					scroll_id: currentScrollId,
+				}
+			);
+
+			// Call the callback with the current page's data
+			onPageReceived(response);
+
+			// Check if a new scroll_id is provided for further pagination
+			currentScrollId = response.data[-1]?.scroll_id;
+			if (!response.data || !response.data.length || !currentScrollId) {
+				break; // No more data to paginate through
+			}
+
+			currentPage++;
+		}
+	}
+
 	// Get latest pairs quotes
 	async getPairsQuotesLatest(params: PairsQuotesLatestParams): Promise<any> {
 		return this.fetch("/v4/dex/pairs/quotes/latest", params);
