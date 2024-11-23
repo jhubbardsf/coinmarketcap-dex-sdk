@@ -1,11 +1,16 @@
 {
   "name": "coinmarketcap-dex-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "module": "src/index.ts",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": ["dist"],
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist && tsc",
+    "publish":"",
+    "test": "jest"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
