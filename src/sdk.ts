@@ -22,6 +22,7 @@ export class CoinMarketCapDexSDK {
 	private baseUrl: string;
 
 	constructor(data: APIConstructor) {
+		console.log("Saving API key", data.apiKey);
 		this.apiKey = data.apiKey;
 		this.baseUrl = data.baseUrl ?? "https://pro-api.coinmarketcap.com";
 	}
@@ -39,6 +40,8 @@ export class CoinMarketCapDexSDK {
 			}
 		});
 
+		console.log("About to fetch", url.toString());
+		console.log("With api key", this.apiKey);
 		const response = await fetch(url.toString(), {
 			method: "GET",
 			headers: {
@@ -94,30 +97,30 @@ export class CoinMarketCapDexSDK {
 	}
 }
 
-// Example Usage
-const api = new CoinMarketCapDexSDK({
-	apiKey: "your_api_key_here",
-	// baseUrl: 'https://pro-api.coinmarketcap.com', // Optional
-});
+// // Example Usage
+// const api = new CoinMarketCapDexSDK({
+// 	apiKey: "your_api_key_here",
+// 	// baseUrl: 'https://pro-api.coinmarketcap.com', // Optional
+// });
 
-// Fetch latest dex spot pairs
-api
-	.getSpotPairsLatest({
-		network_id: 25,
-		dex_slug: "uniswap-v3-polygon,quickswap-v3,curve-polygon",
-		base_asset_symbol: "USDT",
-		sort: "volume_24h",
-		sort_dir: "asc",
-	})
-	.then((data) => console.log(data))
-	.catch((error) => console.error(error));
+// // Fetch latest dex spot pairs
+// api
+// 	.getSpotPairsLatest({
+// 		network_id: 25,
+// 		dex_slug: "uniswap-v3-polygon,quickswap-v3,curve-polygon",
+// 		base_asset_symbol: "USDT",
+// 		sort: "volume_24h",
+// 		sort_dir: "asc",
+// 	})
+// 	.then((data) => console.log(data))
+// 	.catch((error) => console.error(error));
 
-// Fetch latest dex pairs quotes
-api
-	.getPairsQuotesLatest({
-		contract_address:
-			"0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640,0xc2e9f25be6257c210d7adf0d4cd6e3e881ba25f8",
-		skip_invalid: true,
-	})
-	.then((data) => console.log(data))
-	.catch((error) => console.error(error));
+// // Fetch latest dex pairs quotes
+// api
+// 	.getPairsQuotesLatest({
+// 		contract_address:
+// 			"0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640,0xc2e9f25be6257c210d7adf0d4cd6e3e881ba25f8",
+// 		skip_invalid: true,
+// 	})
+// 	.then((data) => console.log(data))
+// 	.catch((error) => console.error(error));
